@@ -5,6 +5,7 @@ import * as React from "react";
 import {TextField} from "@material-ui/core";
 import {Button, ButtonGroup} from "@mui/material";
 import Display from "./Display";
+import axios from "axios";
 //add type for ref prop
 
 //create a variable to hold styles
@@ -26,23 +27,52 @@ const ref = React.useRef<HTMLFormElement>(null);
 //Use this React 18 hook to sycnronize the state with the DOM
     //create a state variable to hold the value of the input field
     const [value,setValue] = React.useState<string|null>('');
-    const [chatLog,setChatLog] = React.useState<string>('');
+    const [chatLog,setChatLog] = React.useState<string| null>('');
     const [response,setResponse] = React.useState<string[]|null>([]);
+    const state ={
+        button:''
+    }
     //create a function to handle the change event
+    const responseFunction=async()=>{
+        console.log('text')
 
+        const response = await axios.post('http://localhost:3080', {
+            message: value
+        });
+        console.log(response);
+
+        setResponse((responses: any) => [...responses, response.data.message.choices[0].text]);
+    }
+    const responseFunctionImages=async()=>{
+        console.log('image')
+
+        const response = await axios.post('http://localhost:3080/image', {
+            message: chatLog
+        });
+        console.log(response);
+
+       setResponse((responses: any) => [...responses, response.data.message.choices[0].text]);
+    }
     //create a function to handle the submit event and clear the input field
     const handleSubmit = (event:React.FormEvent<HTMLFormElement>)=>{
-        event.preventDefault();
-        console.log(value);
+  event.preventDefault();
+
+      //  console.log(event.submitid);
+        setChatLog(value);
+    if(state.button === 'text') {
+        responseFunction().then(r => console.log(r));
         //clear the input field
-        setChatLog(value?value:'');
-setValue('');
+    }if(state.button === 'image'){
+        responseFunctionImages().then(r => console.log(r));
+    }
+
     }
     //create a function to clear the input field
     const clearFields = (event:React.MouseEvent<HTMLButtonElement>)=>{
         event.preventDefault();
         setValue('');
         setChatLog('');
+        setResponse([]);
     }
 //create a something to use the same ID on the front end and back end
 const id = React.useId();
@@ -57,9 +87,9 @@ const id = React.useId();
                     color="secondary" fullWidth={true} multiline={true} onChange={(e)=>setValue(e.target.value)} value={value}   />
 
                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button variant="contained" color="primary" type={'submit'} >Text</Button>
+                <Button variant="contained" color="primary" type={'submit'} name='text' onClick={()=>(state.button = 'text')} >Text</Button>
                     <Button variant="contained" color="secondary" type={'reset'} onClick={clearFields} >Clear</Button>
-                        <Button variant="contained" color="error" type={'submit'} onClick={clearFields} >Image</Button>
+                        <Button variant="contained" color="error" type={'submit'} id='image' onClick={()=>(state.button = 'image')}  >Image</Button>
                     </ButtonGroup>
                 </Box>
             </Container>
