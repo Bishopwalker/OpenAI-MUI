@@ -29,6 +29,7 @@ const ref = React.useRef<HTMLFormElement>(null);
     const [value,setValue] = React.useState<string|null>('');
     const [chatLog,setChatLog] = React.useState<string| null>('');
     const [response,setResponse] = React.useState<string[]|null>([]);
+    const [button,setButton] = React.useState<string|null>();
     const state ={
         button:''
     }
@@ -59,10 +60,10 @@ const ref = React.useRef<HTMLFormElement>(null);
 
       //  console.log(event.submitid);
         setChatLog(value);
-    if(state.button === 'text') {
+    if( button === 'text') {
         responseFunction().then(r => console.log(r));
         //clear the input field
-    }if(state.button === 'image'){
+    }if( button === 'image'){
         responseFunctionImages().then(r => console.log(r));
     }
 
@@ -82,14 +83,14 @@ const id = React.useId();
             <Container maxWidth="lg">
                 <Box
                     sx={styles.form} >
-                    <Display chatLog={chatLog} response={response}/>
+                    <Display chatLog={chatLog} response={response} button={state.button}/>
                     <TextField id={id} label="Ask Your Questions...." variant="filled"  autoFocus={true}
                     color="secondary" fullWidth={true} multiline={true} onChange={(e)=>setValue(e.target.value)} value={value}   />
 
                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button variant="contained" color="primary" type={'submit'} name='text' onClick={()=>(state.button = 'text')} >Text</Button>
+                <Button variant="contained" color="primary" type={'submit'} name='text' onClick={()=>(setButton('text'))} >Text</Button>
                     <Button variant="contained" color="secondary" type={'reset'} onClick={clearFields} >Clear</Button>
-                        <Button variant="contained" color="error" type={'submit'} id='image' onClick={()=>(state.button = 'image')}  >Image</Button>
+                        <Button variant="contained" color="error" type={'submit'} id='image' onClick={()=>(setButton('image'))}  >Image</Button>
                     </ButtonGroup>
                 </Box>
             </Container>

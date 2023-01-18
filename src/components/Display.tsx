@@ -36,8 +36,9 @@ const styles={
 type Props = {
     chatLog: string | null,
     response: string[] | null,
+    button: string | null,
 }
-export default function Display({chatLog, response}: Props) {
+export default function Display({chatLog, response,button}: Props) {
 
 
     return (
@@ -57,7 +58,7 @@ export default function Display({chatLog, response}: Props) {
                     OpenAI GPT-3 Text Generator
                 </Typography>
                 <Typography sx={styles.typography1} variant="body2">
-                    {response}
+                    {button=='text'?response:<a>{response}</a>}
                     <br />
 
                 </Typography>

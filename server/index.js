@@ -47,7 +47,7 @@ app.post('/image', async (req, res) => {
         n: 2,
         size: "1024x1024",
         max_tokens: 100,
-        temperature: 0.3,
+        temperature: 0.5,
 
     });
     console.log(response.data.choices[0].text);
@@ -57,5 +57,5 @@ app.post('/image', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Open AI chat GPT conversation 33  :${port}`)
+    console.log(`Open AI chat GPT conversation 333  :${port}`)
 }   );
