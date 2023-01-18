@@ -1,0 +1,16 @@
+#root {
+  max-width: 100vw;
+    max-height: 100vh;
+     margin: auto;
+  text-align: center;
+  overflow: scroll;
+  background-color:aquamarine ;
+}
+.answer-box{
+  width: 100%;
+  height: 100%;
+  max-width: 70vw;
+  min-height: 95vh;
+  display: flex;
+  background-color: #2b9f9f;
+}
