@@ -13,7 +13,7 @@ app.use(express.json());
 
 const configuration = new Configuration({
     organization: "org-RdU7urV22eZNYaup9sQERQO4",
-    apiKey:'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'
+    apiKey:process.env.OPENAI_API_KEY
 });
 const openai = new OpenAIApi(configuration);
 //const response = await openai.listEngines();
